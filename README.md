@@ -1,5 +1,6 @@
 # Ex.05 Design a Website for Server Side Processing
-## Date:
+## Date:.10/12/25
+## REF NO:25007890
 
 ## AIM:
  To design a website to calculate the Body Mass Index(BMI) in the server side. 
@@ -26,12 +27,68 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 ## PROGRAM :
+~~~
+math.html
+
+<!DOCTYPE html>
+<html>
+<head>
 
 
+    <title>Lamp Power Calculator</title>
+</head>
+<body style="text-align:center; margin-top:50px; background: linear-gradient(to right, black, grey, white, sandybrown);">
+    <h2>Power of Lamp Filament</h2>
+    <p><b>Formula:</b> P = I² × R</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <label style="font-size: large;">Current (I in Amperes):</label><br>
+        <input type="number" name="current" step="0.01" required  width: 250px;    height: 30px;     font-size: 16px;><br><br>
+
+        <label style="font-size: larger;">Resistance (R in Ohms):</label><br>
+        <input type="number" name="resistance" step="0.01" required  width: 250px;    height: 30px;     font-size: 16px><br><br>
+
+        <button type="submit" aria-setsize="50">Calculate The Power</button>
+    </form>
+
+    {% if Power %}
+        <h3>Power: {{ Power }} W</h3>
+    {% endif %}
+</body>
+</html>
+
+views.py
+
+from django.shortcuts import render
+
+def calculate_power(request):
+    power = None
+    if request.method == "POST":
+        current = float(request.POST.get("current"))   # I
+        resistance = float(request.POST.get("resistance"))  # R
+        power = (current ** 2) * resistance            # P = I² × R
+        print(f"Current: {current} A, Resistance: {resistance} Ω, Power: {power:.2f} W")
+
+    return render(request, 'mathapp/math.html', {'Power': power})
+
+urls.py
+
+from django.contrib import admin
+from django.urls import path
+from mathapp import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',views.calculate_power),
+]
+~~~
 ## SERVER SIDE PROCESSING:
+<img width="1920" height="1080" alt="525727067-c235ffad-59a0-4ba4-8454-d5cf0e7f6fd1" src="https://github.com/user-attachments/assets/4fae4581-2c5c-4730-9c97-ff8853b0acfa" />
 
 
 ## HOMEPAGE:
+<img width="1920" height="1080" alt="525722947-fb94908b-c451-42d8-9ef9-7dd8fb9c4412" src="https://github.com/user-attachments/assets/05cea7b9-32ac-4723-9088-8dd1ce21773b" />
 
 
 ## RESULT:
